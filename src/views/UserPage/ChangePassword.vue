@@ -15,38 +15,63 @@ export default {
     // 改密碼方法
     changePwd() {
       if(!this.email.trim() || !this.oldPassword.trim() || !this.newPassword.trim()){
-        alert("請填寫所有欄位的資料!!");
+        Swal.fire({
+          title: "請填寫所有必填欄位的資料!",
+          icon: "error",
+          confirmButtonText: "OK",
+          });
         return;
       }
       // 檢查電子郵件是否為空且符合格式
       if (!this.email || !this.email.trim()) {
-        alert("電子郵件欄位不得為空!!");
+        Swal.fire({
+          title: "電子郵件欄位不得為空!!",
+          icon: "error",
+          confirmButtonText: "OK",
+          });
         return;
       } else {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         const isValidEmail = emailRegex.test(this.email);
         if (!isValidEmail) {
-          alert("請輸入有效的電子郵件!!");
-          return;
+          Swal.fire({
+          title: "請輸入有效的電子郵件!!",
+          icon: "error",
+          confirmButtonText: "OK",
+          });
+        return;
         }
       }
       // 檢查密碼是否為空
       if (!this.oldPassword.trim()) {
-        alert("請填寫密碼!!");
+        if (!isValidEmail) {
+          Swal.fire({
+          title: "請填寫密碼!!",
+          icon: "error",
+          confirmButtonText: "OK",
+          });
         return;
       }
       // 密碼正規表達式，密碼至少8字元，要有英文+數字，字母及一個數字。
       const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
       // 檢查密碼是否符合要求
       if (!passwordRegex.test(this.newPassword)) {
-        alert("密碼至少要包含8個字元，要有英文+數字，其中需包含至少一個字母及一個數字!!");
+        Swal.fire({
+          title: "密碼包含至少8個字元，要有英文+數字，其中需包含至少一個字母及一個數字!!",
+          icon: "error",
+          confirmButtonText: "OK",
+          });
         return;
       }
       if (this.oldPassword === this.newPassword) {
-        alert("密碼不能與新密碼相同，請確認後重新原输入。");
+        Swal.fire({
+          title: "密碼不能與新密碼相同，請確認後重新原输入!!",
+          icon: "error",
+          confirmButtonText: "OK",
+          });
         return;
       } 
-      //更改密碼方法，通過所有條件才可更改密碼
+      //更改密碼方法，通過所有條件才可更改密碼 宣告物件帶三個參數
       const userData = {
         email: this.email,
         old_password: this.oldPassword,
@@ -58,7 +83,12 @@ export default {
           const responseData = response.data;
           console.log(responseData.rtnCode);
           if(responseData.rtnCode === "EMAIL_NOT_FOUND"){
-            alert("電子郵件錯誤，請確認您的電子郵件是否正確!!")
+          Swal.fire({
+            title: "電子郵件錯誤，請確認您的電子郵件是否正確!!",
+            icon: "error",
+            confirmButtonText: "OK",
+            });
+            return;
           }else{
           this.showAlert("更改密碼成功!!");
           this.$router.push("/"); //更改密碼成功後碼導回首頁

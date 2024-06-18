@@ -12,7 +12,8 @@ export default {
       forgotPwd(){
         if(!this.email.trim()){
           Swal.fire({
-            title: "電子郵件欄位不得為空!!",
+            title: "發送失敗!!",
+            text:"電子郵件欄位不得為空!!",
             icon: "error",
             confirmButtonText: "OK",
           });
@@ -22,7 +23,8 @@ export default {
         const isValidEmail = emailRegex.test(this.email);
         if (!isValidEmail) {
           Swal.fire({
-            title: "請輸入有效的電子郵件!!",
+            title: "發送失敗!!",
+            text:"請輸入有效的電子郵件!!",
             icon: "error",
             confirmButtonText: "OK",
           });

@@ -25,53 +25,89 @@ export default {
         !this.password.trim() ||
         !this.confirmPassword.trim()
       ) {
-        alert("請填寫所有欄位的資料!!");
-        return;
+        Swal.fire({
+            title: "請填寫所有欄位的資料!!",
+            icon: "error",
+            confirmButtonText: "OK",
+            });
+            return;
       }
       // 檢查姓名是否為空
       if (!this.name.trim()) {
-        alert("請填寫姓名!!");
-        return;
+        Swal.fire({
+            title: "請填寫姓名!!",
+            icon: "error",
+            confirmButtonText: "OK",
+            });
+            return;
       }
       // 檢查電子郵件是否為空且符合格式
       if (!this.email.trim()) {
-        alert("請填寫電子郵件!!");
-        return;
+        Swal.fire({
+            title: "請填寫電子郵件!!",
+            icon: "error",
+            confirmButtonText: "OK",
+            });
+            return;
       } else {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         const isValidEmail = emailRegex.test(this.email);
         if (!isValidEmail) {
-          alert("請輸入有效的電子郵件!!");
-          return;
+          Swal.fire({
+            title: "請輸入有效的電子郵件!!",
+            icon: "error",
+            confirmButtonText: "OK",
+            });
+            return;
         }
       }
       // 檢查電話號碼是否為空且符合格式
       if (!this.phone_number.trim()) {
-        alert("請填寫電話號碼!!");
-        return;
+        Swal.fire({
+            title: "請填寫電話號碼!!",
+            icon: "error",
+            confirmButtonText: "OK",
+            });
+            return;
       } else {
         const phoneRegex = /^09\d{8}$/;
         const isValidPhone = phoneRegex.test(this.phone_number);
         if (!isValidPhone) {
-          alert("請輸入有效的電話號碼!!");
-          return;
+          Swal.fire({
+            title: "請輸入有效的電話號碼!!",
+            icon: "error",
+            confirmButtonText: "OK",
+            });
+            return;
         }
       }
       // 檢查密碼是否為空
       if (!this.password.trim()) {
-        alert("請填寫密碼!!");
-        return;
+        Swal.fire({
+            title: "請填寫密碼!!",
+            icon: "error",
+            confirmButtonText: "OK",
+            });
+            return;
       }
       // 密碼正規表達式，密碼至少8字元，要有英文+數字，字母及一個數字。
       const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
       // 檢查密碼是否符合要求
       if (!passwordRegex.test(this.password)) {
-        alert("密碼至少要包含8個字元，要有英文+數字，其中需包含至少一個字母及一個數字!!");
-        return;
-      }
+        Swal.fire({
+            title: "密碼至少要包含8個字元，要有英文+數字，其中需包含至少一個字母及一個數字!!",
+            icon: "error",
+            confirmButtonText: "OK",
+            });
+            return;
+        }
       if (this.password !== this.confirmPassword) {
-        alert("密碼與確認密碼不同，請確認後重新输入。");
-        return;
+        Swal.fire({
+            title: "密碼與確認密碼不同，請確認後重新输入。",
+            icon: "error",
+            confirmButtonText: "OK",
+            });
+            return;
       }
       // 若通過所有條件，才可進行註冊
       const userData = {
@@ -87,7 +123,12 @@ export default {
           const responseData = response.data;
           console.log(responseData.rtnCode);
           if (responseData.rtnCode === "EMAIL_IS_EXIST") {
-            alert("此電子郵件已被註冊，請使用其他電子郵件進行註冊!!")
+            Swal.fire({
+            title: "此電子郵件已被註冊，請使用其他電子郵件進行註冊!!",
+            icon: "error",
+            confirmButtonText: "OK",
+            });
+            return;
           } else {
             // 如果不是 "EMAIL_IS_EXIST"，代表註冊成功
             this.showAlert("註冊成功!!")

@@ -14,32 +14,52 @@ export default {
     //登入方法
     LoginUser() {
       if (!this.email.trim() || !this.password.trim()) {
-        alert("請填寫所有欄位的資料!!");
-        return;
+        Swal.fire({
+            title: "請填寫所有必填欄位的資料!!",
+            icon: "error",
+            confirmButtonText: "OK",
+          });
+          return;
       }
       // 檢查電子郵件是否為空且符合格式
       if (!this.email.trim()) {
-        alert("請填寫電子郵件!!");
-        return;
+        Swal.fire({
+            title: "電子郵件欄位不得為空!!",
+            icon: "error",
+            confirmButtonText: "OK",
+          });
+          return;
       } else {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         const isValidEmail = emailRegex.test(this.email);
         if (!isValidEmail) {
-          alert("請輸入有效的電子郵件!!");
+          Swal.fire({
+            title: "請輸入有效的電子郵件!!",
+            icon: "error",
+            confirmButtonText: "OK",
+          });
           return;
         }
       }
       // 檢查密碼是否為空
       if (!this.password.trim()) {
-        alert("請填寫密碼!!");
-        return;
+        Swal.fire({
+            title: "請填寫密碼!!",
+            icon: "error",
+            confirmButtonText: "OK",
+          });
+          return;
       }
       // 密碼正規表達式，密碼至少8字元，要有英文+數字，其中包含至少一個字母及一個數字。
       const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
       // 檢查密碼是否符合要求
       if (!passwordRegex.test(this.password)) {
-        alert("請確認您的密碼至少8碼，其中包含至少一個字母及一個數字");
-        return;
+        Swal.fire({
+            title: "請確認您的密碼是否正確，至少8碼其中包含一個英文字母及一個數字",
+            icon: "error",
+            confirmButtonText: "OK",
+          });
+          return;
       }
       const userData = {
         email: this.email,
@@ -50,7 +70,8 @@ export default {
         .then((response) => {
           const responseData = response.data;
           console.log(responseData.rtnCode);
-          switch (responseData.rtnCode) { //判斷rtnCode 以下判斷rtnCode的訊息做分類
+          //判斷rtnCode回傳的訊息為何 以下情況依rtnCode的訊息做分類
+          switch (responseData.rtnCode) { 
             case "SUCCESSFUL": // 登入成功
               console.log(responseData);
               console.log("User Photo:", responseData.user.user_photo);
@@ -64,10 +85,8 @@ export default {
               sessionStorage.setItem("remittance_number", responseData.user.remittance_number);
               sessionStorage.setItem("level", responseData.user.level);
               sessionStorage.setItem("phone_number", responseData.user.phone_number);
-
               this.showAlert("登入成功");
               this.$emit('userLoggedIn');
-
               this.$router.push("/");
               break;
             case "FOUND_TO_CHANGE_PASSWORD_PAGE": // 需要更改密碼
@@ -75,21 +94,37 @@ export default {
               this.$router.push("/UserPage/ChangeForgetPassword");
               break;
             case "EMAIL_NOT_FOUND": // 電子郵件未註冊
-              alert("此電子郵件尚未註冊");
+            Swal.fire({
+            title: "此電子郵件尚未註冊!!",
+            icon: "error",
+            confirmButtonText: "OK",
+            });
               break;
             case "PASSWORD_ERROR": // 密碼錯誤
-              alert("密碼錯誤");
+            Swal.fire({
+            title: "密碼錯誤!!",
+            icon: "error",
+            confirmButtonText: "OK",
+            });
               break;
             default:
-              console.error("未知錯誤:", responseData.code);
-              alert("登入失敗，請稍後再試");
+            console.error("未知錯誤:", responseData.code);
+            Swal.fire({
+            title: "登入失敗，請稍後再試!!",
+            icon: "error",
+            confirmButtonText: "OK",
+            });
               break;
           }
         })
         .catch((error) => {
           console.error(error);
           // 處理網路或伺服器錯誤
-          alert("發生了一些問題，請確保您的網路連線正常，並稍後再試!");
+          Swal.fire({
+            title: "發生了一些問題，請確保您的網路連線正常，並稍後再試!",
+            icon: "error",
+            confirmButtonText: "OK",
+            });
         });
       },
     //套件sweetalert2，顯示登入成功
@@ -100,7 +135,7 @@ export default {
         icon: "success",
         confirmButtonText: "OK",
       }).then(() => {
-      // 关闭弹窗后重新加载页面
+      // 關閉登入彈跳視窗後重新載入頁面
       location.reload();
     });
       },
